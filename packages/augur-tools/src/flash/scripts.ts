@@ -3003,6 +3003,7 @@ export function addScripts(flash: FlashSession) {
       await maker.placeZeroXOrders([makerOrder]);
       await sleep(10000); // give 0x plenty of time to propagate the orders
 
+      console.log('Beginning to take the order bit by bit');
       const takerOrder = buildTakerOrder(marketInfo, outcome, now, new BigNumber(10), price, OrderType.Ask);
       await mapPromises(takers.map((taker) => async () => {
         let t = Number(new Date());
