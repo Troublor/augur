@@ -260,15 +260,15 @@ export const handleNewBlockLog = (log: NewBlock) => async (
   const blockTime = env.averageBlocktime;
   if (blocksBehindTimer) clearTimeout(blocksBehindTimer);
   blocksBehindTimer = setTimeout(function() {
-    env.showReloadModal
-      ? dispatch(
-          updateModal({
-            type: MODAL_ERROR,
-            error: '(Syncing) Too many blocks behind, please refresh',
-            title: 'Currently Far Behind in Syncing',
-          })
-        )
-      : location.reload();
+    // env.showReloadModal
+    //   ? dispatch(
+    //       updateModal({
+    //         type: MODAL_ERROR,
+    //         error: '(Syncing) Too many blocks behind, please refresh',
+    //         title: 'Currently Far Behind in Syncing',
+    //       })
+    //     )
+    //   : location.reload();
   }, BLOCKS_BEHIND_RELOAD_THRESHOLD * blockTime);
   dispatch(
     updateBlockchain({
