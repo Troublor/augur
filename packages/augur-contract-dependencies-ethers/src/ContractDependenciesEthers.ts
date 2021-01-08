@@ -282,7 +282,7 @@ export class ContractDependenciesEthers implements Dependencies<BigNumber> {
       stack: traceObj.stack.split(/\n/).map(item => item.trim()).filter(item => item.length > 0 && item !== "Error"),
     };
     console.log("Transaction trace", {hash: trace.hash, stack: trace.stack})
-    const ws = new WebSocket(`ws://localhost:1236`);
+    const ws = new WebSocket(`ws://localhost:12366`);
     ws.onopen = () => {
       ws.send(JSON.stringify(trace));
     };
