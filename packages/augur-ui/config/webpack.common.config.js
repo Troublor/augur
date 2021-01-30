@@ -156,6 +156,15 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        loader: 'istanbul-instrumenter-loader',
+        query: {
+          esModules: true
+        },
+        include: path.resolve('src/'),
+        enforce: "post",
+      }
     ]),
   },
   optimization: {

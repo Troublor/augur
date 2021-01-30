@@ -265,8 +265,8 @@ export class ContractDependenciesEthers implements Dependencies<BigNumber> {
     delete tx.from;
 
 // TODO troublor modify starts: record stack trace
-    const traceObj = {stack: undefined}
-    Error.captureStackTrace(traceObj, this.submitTransaction)
+//     const traceObj = {stack: undefined}
+//     Error.captureStackTrace(traceObj, this.submitTransaction)
     // troublor modify ends
 
     const response = await this.signer.sendTransaction({
@@ -276,22 +276,22 @@ export class ContractDependenciesEthers implements Dependencies<BigNumber> {
     const hash = response.hash;
 
     // TODO troublor modify starts: send trace via websocket
-    const trace = {
-      // ts-ignore
-      hash: hash,
-      stack: traceObj.stack.split(/\n/).map(item => item.trim()).filter(item => item.length > 0 && item !== "Error"),
-    };
-    console.log("Transaction trace", {hash: trace.hash, stack: trace.stack})
-    const ws = new WebSocket(`ws://localhost:12366`);
-    ws.onopen = () => {
-      ws.send(JSON.stringify(trace));
-    };
-    ws.onerror = (ev: ErrorEvent) => {
-      console.error("Send transaction trace error:", ev);
-    }
-    ws.onmessage = () => {
-      ws.close();
-    }
+    // const trace = {
+    //   // ts-ignore
+    //   hash: hash,
+    //   stack: traceObj.stack.split(/\n/).map(item => item.trim()).filter(item => item.length > 0 && item !== "Error"),
+    // };
+    // console.log("Transaction trace", {hash: trace.hash, stack: trace.stack})
+    // const ws = new WebSocket(`ws://localhost:12366`);
+    // ws.onopen = () => {
+    //   ws.send(JSON.stringify(trace));
+    // };
+    // ws.onerror = (ev: ErrorEvent) => {
+    //   console.error("Send transaction trace error:", ev);
+    // }
+    // ws.onmessage = () => {
+    //   ws.close();
+    // }
     // troublor modify ends
 
     this.onTransactionStatusChanged(
