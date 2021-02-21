@@ -343,7 +343,7 @@ export async function finalizeMarket(marketId: string) {
   const Augur = augurSdk.get();
   const market = Augur.getMarket(marketId);
   if (!market) return false; // TODO: prob should throw error if market not found
-  return market.finalize();
+  return market.finalize(); // TODO undeployable: unreachable
 }
 
 export function getDai() {
@@ -390,7 +390,7 @@ export async function addLiquidityRepDai(dai: BigNumber, rep: BigNumber): Promis
   const cashAmount = dai.multipliedBy(ETHER);
   const repAmount = rep.multipliedBy(ETHER);
 
-  uniswap.addLiquidity(contracts.reputationToken.address, contracts.cash.address, repAmount, cashAmount, new BigNumber(0), new BigNumber(0));
+  uniswap.addLiquidity(contracts.reputationToken.address, contracts.cash.address, repAmount, cashAmount, new BigNumber(0), new BigNumber(0));// TODO undeployable
 }
 
 export async function checkSetApprovalAmount(account, contract): Promise<void> {
@@ -536,7 +536,7 @@ export async function forkAndRedeem(reportingParticipantsContracts: string) {
   try {
     contracts
       .getReportingParticipant(reportingParticipantsContracts)
-      .forkAndRedeem();
+      .forkAndRedeem();// TODO undeployable: unreachable
   } catch (e) {
     console.error(
       'Could not fork and redeem sigle reporting participant contract',
@@ -551,7 +551,7 @@ export async function redeemUserStakes(
 ) {
   const { contracts } = augurSdk.get();
   try {
-    contracts.redeemStake.redeemStake(
+    contracts.redeemStake.redeemStake(// TODO undeployable: unreachable
       reportingParticipantsContracts,
       disputeWindows
     );
@@ -562,7 +562,7 @@ export async function redeemUserStakes(
 
 export async function disavowMarket(marketId: string) {
   const { contracts } = augurSdk.get();
-  return contracts.marketFromAddress(marketId).disavowCrowdsourcers();
+  return contracts.marketFromAddress(marketId).disavowCrowdsourcers();// TODO undeployable: unreachable
 }
 
 export interface doReportDisputeAddStake {
@@ -619,7 +619,7 @@ export async function doInitialReportWarpSync(report: doReportDisputeAddStake) {
   const Augur = augurSdk.get();
   const universe = Augur.contracts.universe.address;
   const payoutNumerators = await getPayoutNumerators(report);
-  return Augur.contracts.warpSync.doInitialReport(
+  return Augur.contracts.warpSync.doInitialReport(// TODO undeployable: unreachable
     universe,
     payoutNumerators,
     report.description
@@ -664,7 +664,7 @@ export async function addRepToTentativeWinningOutcome(
   const market = getMarket(addStake.marketId);
   if (!market) return false;
   const payoutNumerators = await getPayoutNumerators(addStake);
-  return market.contributeToTentative(
+  return market.contributeToTentative(// TODO undeployable: unreachable
     payoutNumerators,
     createBigNumber(addStake.attoRepAmount),
     addStake.description
@@ -686,7 +686,7 @@ export async function contribute(dispute: doReportDisputeAddStake) {
   const market = getMarket(dispute.marketId);
   if (!market) return false;
   const payoutNumerators = await getPayoutNumerators(dispute);
-  return market.contribute(
+  return market.contribute(// TODO undeployable: unreachable
     payoutNumerators,
     createBigNumber(dispute.attoRepAmount),
     dispute.description
@@ -833,11 +833,11 @@ export async function approveToTrade() {
   const augurContract = contracts.augur.address;
   const allowance = new BigNumber(2).pow(256).minus(1);
   await Promise.all([
-    contracts.cash.approve(augurContract, allowance),
-    contracts.shareToken.setApprovalForAll(contracts.fillOrder.address, true),
-    contracts.shareToken.setApprovalForAll(contracts.createOrder.address, true),
-    contracts.cash.approve(contracts.fillOrder.address, allowance),
-    contracts.cash.approve(contracts.createOrder.address, allowance),
+    contracts.cash.approve(augurContract, allowance),// TODO undeployable: GSN enabled, no need to approve
+    contracts.shareToken.setApprovalForAll(contracts.fillOrder.address, true),// TODO undeployable: GSN enabled, no need to approve
+    contracts.shareToken.setApprovalForAll(contracts.createOrder.address, true),// TODO undeployable: GSN enabled, no need to approve
+    contracts.cash.approve(contracts.fillOrder.address, allowance),// TODO undeployable: GSN enabled, no need to approve
+    contracts.cash.approve(contracts.createOrder.address, allowance),// TODO undeployable: GSN enabled, no need to approve
    ]);
 }
 
@@ -851,12 +851,12 @@ export async function getAllowance(account: string): Promise<BigNumber> {
 
 export async function cancelOpenOrders(orderIds: string[]) {
   const { contracts } = augurSdk.get();
-  return contracts.cancelOrder.cancelOrders(orderIds);
+  return contracts.cancelOrder.cancelOrders(orderIds);// TODO undeployable: dead code
 }
 
 export async function cancelOpenOrder(orderId: string) {
   const { contracts } = augurSdk.get();
-  return contracts.cancelOrder.cancelOrder(orderId);
+  return contracts.cancelOrder.cancelOrder(orderId);// TODO undeployable: dead code
 }
 
 export async function getReportingDivisor(): Promise<BigNumber> {
@@ -891,7 +891,7 @@ export async function createLiquidityOrder(order: MarketLiquidityOrder) {
     order.minPrice,
     order.maxPrice
   );
-  return Augur.contracts.createOrder.publicCreateOrder(
+  return Augur.contracts.createOrder.publicCreateOrder(// TODO undeployable: disabled by ZeroX orders
     createBigNumber(order.orderType),
     orderProperties.attoShares,
     orderProperties.attoPrice,
@@ -931,7 +931,7 @@ export async function createLiquidityOrders(
     prices.push(createBigNumber(properties.attoPrice));
   });
 
-  return Augur.contracts.createOrder.publicCreateOrders(
+  return Augur.contracts.createOrder.publicCreateOrders(// TODO undeployable: deadcode
     outcomes,
     types,
     attoshareAmounts,
@@ -1090,7 +1090,7 @@ export async function claimMarketsProceeds(
   fingerprint: string = formatBytes32String('11'),
 ) {
   const augur = augurSdk.get();
-  augur.contracts.augurTrading.claimMarketsProceeds(
+  augur.contracts.augurTrading.claimMarketsProceeds(// TODO undeployable
     markets,
     shareHolder,
     fingerprint
@@ -1118,7 +1118,7 @@ export async function migrateThroughOneFork(
   try {
     const Augur = augurSdk.get();
     const market = Augur.getMarket(marketId);
-    market.migrateThroughOneFork(payoutNumerators, description);
+    market.migrateThroughOneFork(payoutNumerators, description);// TODO undeployable: unreachable
   } catch (e) {
     console.error('Could not migrate market', e);
   }
@@ -1143,7 +1143,7 @@ export async function reportAndMigrateMarket(
   const Augur = augurSdk.get();
   const market = Augur.getMarket(migration.marketId);
   const payoutNumerators = await getPayoutNumerators(migration);
-  return market.migrateThroughOneFork(payoutNumerators, migration.description);
+  return market.migrateThroughOneFork(payoutNumerators, migration.description);// TODO undeployable: unreachable
 }
 
 export async function migrateRepToUniverseEstimateGas(
@@ -1163,7 +1163,7 @@ export async function migrateRepToUniverse(migration: doReportDisputeAddStake) {
   const payoutNumerators = await getPayoutNumerators(migration);
 
   try {
-    contracts.reputationToken.migrateOutByPayout(
+    contracts.reputationToken.migrateOutByPayout(// TODO undeployable: unreachable
       payoutNumerators,
       createBigNumber(migration.attoRepAmount)
     );
